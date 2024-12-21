@@ -14,6 +14,7 @@ class UAbilitySystemComponent;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDestroyComponent, ADeadBody*, DeadBodyDes);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAwayFromDeadBody);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FCheckEndGame);
 
 UCLASS(Blueprintable, config=Game)
 class MULTIPLAYERTEMPLATE_API AMyCharacter : public ACharacter, public IAbilitySystemInterface
@@ -96,6 +97,9 @@ public:
 	
 	UPROPERTY(BlueprintAssignable)
 	FAwayFromDeadBody AwayFromDeadBody;
+
+	UPROPERTY(BlueprintAssignable)
+	FCheckEndGame CheckEndGame;
 protected:
 	void OnHealthChange(const FOnAttributeChangeData& Data);
 	virtual void GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const override;

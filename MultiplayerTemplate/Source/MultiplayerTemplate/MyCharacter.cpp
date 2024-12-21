@@ -5,7 +5,6 @@
 
 #include "AbilitySystemComponent.h"
 #include "MyAttributeSet.h"
-#include "MyPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -136,13 +135,7 @@ void AMyCharacter::OnRep_IsDead()
 	
 	GetMesh()->SetMaterial(0, DeadMat);
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Ghost"));
-	FTransform Temp = GetActorTransform();
-	Temp.SetLocation(DeadLoc);
-	if (!HasSpawnDeadBody)
-	{
-		HasSpawnDeadBody = true;
-		GetWorld()->SpawnActor<AActor>(DeadBody, Temp);
-	}
+	
 }
 
 void AMyCharacter::OnRep_KillByVote()
@@ -179,8 +172,16 @@ void AMyCharacter::ServerOnDead_Implementation(const FVector Loc)
 {
 	IsGhost = true;
 	DeadLoc = Loc;
+	FTransform Temp = GetActorTransform();
+	Temp.SetLocation(DeadLoc);
+	if (!HasSpawnDeadBody)
+	{
+		HasSpawnDeadBody = true;
+		GetWorld()->SpawnActor<AActor>(DeadBody, Temp);
+	}
 	GetMesh()->SetMaterial(0, DeadMat);
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Ghost"));
+	CheckEndGame.Broadcast();
 }
 
 void AMyCharacter::OnHealthChange(const FOnAttributeChangeData& Data)
