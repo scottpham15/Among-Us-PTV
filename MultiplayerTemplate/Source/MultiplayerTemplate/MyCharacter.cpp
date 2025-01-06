@@ -180,6 +180,7 @@ void AMyCharacter::ServerOnDead_Implementation(const FVector Loc)
 		GetWorld()->SpawnActor<AActor>(DeadBody, Temp);
 	}
 	GetMesh()->SetMaterial(0, DeadMat);
+	EndGameTexture = DeadTexture;
 	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Ghost"));
 	CheckEndGame.Broadcast();
 }
@@ -197,4 +198,6 @@ void AMyCharacter::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& O
 	DOREPLIFETIME(AMyCharacter, DeadLoc);
 	DOREPLIFETIME(AMyCharacter, IsGhost);
 	DOREPLIFETIME(AMyCharacter, IsGhostByVote);
+	DOREPLIFETIME(AMyCharacter, EndGameTexture);
+	DOREPLIFETIME(AMyCharacter, DeadTexture);
 }

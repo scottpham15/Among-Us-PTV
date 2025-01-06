@@ -90,6 +90,12 @@ public:
 	UPROPERTY(BlueprintReadOnly, ReplicatedUsing = OnRep_IsDead)
 	FVector DeadLoc;
 
+	UPROPERTY(BlueprintReadOnly, Replicated, EditAnywhere)
+	UTexture* EndGameTexture;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere, Replicated)
+	UTexture* DeadTexture;
+	
 	bool HasSpawnDeadBody = false;
 	
 	UPROPERTY(BlueprintAssignable)
